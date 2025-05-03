@@ -13,7 +13,7 @@ function Input({ value, onChange, placeholder, label, type }) {
       <label className="">{label}</label>
       <div className="input-box relative">
         <input
-          className="w-full bg-transparent outline-none "
+          className="w-full bg-transparent  outline-none"
           type={
             type === "password" ? (showPassword ? "text" : "password") : type
           }
