@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const apiLimiter = require("./middlewares/rateLimiter");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.use(apiLimiter);
 
 app.use(express.json());
 connectDB();

@@ -7,7 +7,7 @@ const generateToken = (id) => {
 
 // RegisterUser
 exports.registerUser = async (req, res) => {
-  console.log("Gelen istek:", req.body); // bu satırı ekle
+  console.log("incoming request:", req.body);
   const { fullName, email, password, profileImageUrl } = req.body;
 
   // Validation : check for missing fields
@@ -43,8 +43,11 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// RegisterUser
+// Login User
 exports.loginUser = async (req, res) => {
+  console.log("✅ login function triggered");
+  console.log("📦 incoming request:", req.body);
+
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -59,9 +62,9 @@ exports.loginUser = async (req, res) => {
     }
 
     res.status(200).json({
-      id: user_.id,
+      id: user._id,
       user,
-      token: generateToken(user_.id),
+      token: generateToken(user._id),
     });
   } catch (error) {
     res.status(500).json({ message: "Error login user", error: error.message });
@@ -69,5 +72,20 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// RegisterUser
-exports.getUserInfo = async (req, res) => {};
+// Get User Info
+exports.getUserInfo = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error regşstering user", error: error.message });
+    console.log(error);
+  }
+};
