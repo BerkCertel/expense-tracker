@@ -2,19 +2,22 @@ const Income = require("../models/Income");
 const Expense = require("../models/Expense");
 const { isValidObjectId, Types } = require("mongoose");
 
+//  Dasgboard Data
 exports.getDashboardData = async (req, res) => {
   try {
     const userId = req.user.id;
     const userObjectId = new Types.ObjectId(String(userId));
 
-    // Fetch total income & expense for the user
+    // Fetch total income & expense
+    const totalIncome = await Income.aggregate([
+      { $match: { userId: userObjectId } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
 
-    const totalIncome = await Income.aggregate({
-      $match: { userId: userObjectId },
-      $group: { _id: null, total: { $sum: "$amount" } },
+    console.log("Total Income:", {
+      totalIncome,
+      userId: isValidObjectId(userId),
     });
-
-    console.log("Total Income:", { totalIncome, userId: userObjectId(userId) });
 
     const totalExpense = await Expense.aggregate([
       { $match: { userId: userObjectId } },
@@ -35,39 +38,45 @@ exports.getDashboardData = async (req, res) => {
       0
     );
 
-    // Get income transactions in the last 30 days
+    // Get total expense for last 30 days
 
-    const last30DaysIncomeTransactions = await Income.find({
+    const last30DaysExpenseTransactions = await Expense.find({
       userId,
       date: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
     }).sort({ date: -1 });
 
-    // Get total income for last 30 days
+    // Get total expense for last 30 days
 
-    const incomeLast30Days = await last30DaysIncomeTransactions.reduce(
+    const expenseLast30Days = await last30DaysExpenseTransactions.reduce(
       (sum, transaction) => sum + transaction.amount,
       0
     );
 
     // fetch last 5 transactions for income + expense
+    // Income işlemlerini çek
+    const last5Income = await Income.find({ userId })
+      .sort({ date: -1 })
+      .limit(5);
+    // Expense işlemlerini çek
+    const last5Expense = await Expense.find({ userId })
+      .sort({ date: -1 })
+      .limit(5);
 
+    // Her birine tip ekle
+    const last5IncomeWithType = last5Income.map((txn) => ({
+      ...txn.toObject(),
+      type: "income",
+    }));
+    const last5ExpenseWithType = last5Expense.map((txn) => ({
+      ...txn.toObject(),
+      type: "expense",
+    }));
+
+    // Birleştir ve tarihe göre sırala
     const lastTransactions = [
-      ...(await Income.find({ userId })
-        .sort({ date: -1 })
-        .limit(5)
-        .map((txn) => ({
-          ...txn.toObject(),
-          type: "income",
-        }))),
-
-      ...(await Expense.find({ userId })
-        .sort({ date: -1 })
-        .limit(5)
-        .map((txn) => ({
-          ...txn.toObject(),
-          type: "expense",
-        }))),
-    ].sort((a, b) => b.date - a.date); // Sort latest first
+      ...last5IncomeWithType,
+      ...last5ExpenseWithType,
+    ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
     // Final Response
     res.json({
@@ -76,17 +85,20 @@ exports.getDashboardData = async (req, res) => {
 
       totalIncome: totalIncome[0]?.total || 0,
       totalExpense: totalExpense[0]?.total || 0,
-      expenseLast30Days: {
-        total: expensesLast30Days,
+      last30DaysExpenses: {
+        total: expenseLast30Days,
         transactions: last30DaysExpenseTransactions,
       },
-      incomeLast30Days: {
-        total: incomeLast30Days,
-        transactions: last30DaysIncomeTransactions,
+
+      last60DaysIncome: {
+        total: incomeLast60Days,
+        transactions: last60DaysIncomeTransactions,
       },
+
       recentTransactions: lastTransactions,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Server error" });
   }
 };
