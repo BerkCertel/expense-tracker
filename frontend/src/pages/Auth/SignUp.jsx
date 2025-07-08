@@ -75,7 +75,7 @@ function SignUp() {
       const { token, user } = response.data;
 
       if (token) {
-        localStorage.setItem("accessToken", token);
+        localStorage.setItem("token", token);
         updateUser(user); // Update user context with user data
         navigate("/dashboard");
       }

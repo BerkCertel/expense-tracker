@@ -75,7 +75,7 @@ function Login() {
           />
           <Input
             label="Password"
-            placeholder="Min 8 characters"
+            placeholder="Don't share your password with anyone"
             type="password"
             value={password}
             onChange={({ target }) => setPassword(target.value)}

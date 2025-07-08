@@ -45,9 +45,6 @@ exports.registerUser = async (req, res) => {
 
 // Login User
 exports.loginUser = async (req, res) => {
-  console.log("✅ login function triggered");
-  console.log("📦 incoming request:", req.body);
-
   const { email, password } = req.body;
 
   if (!email || !password) {
