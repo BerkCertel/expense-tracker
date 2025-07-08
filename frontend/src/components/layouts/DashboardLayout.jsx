@@ -6,8 +6,6 @@ import SideMenu from "../SideMenu";
 function DashboardLayout({ children, activeMenu }) {
   const { user } = useContext(UserContext);
 
-  console.log(user);
-
   return (
     <div className="">
       <Navbar activeMenu={activeMenu} />

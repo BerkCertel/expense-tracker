@@ -10,7 +10,7 @@ export const API_PATHS = {
   },
 
   DASHBOARD: {
-    GET_DATA: "/api/v1/dashboard/getData",
+    GET_DATA: "/api/v1/dashboard",
   },
 
   INCOME: {
