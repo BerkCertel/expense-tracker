@@ -13,9 +13,9 @@ function RecentTransactions({ transactions, onSeeMore }) {
       </div>
 
       <div className="mt-6">
-        {transactions?.slice(0, 5)?.map((items) => (
+        {transactions?.slice(0, 5)?.map((items, index) => (
           <TransactionInfoCard
-            key={items?.id}
+            key={index}
             title={items.type == "expense" ? items.category : items.source}
             icon={items.icon}
             date={moment(items.date).format(" Do MMM YYYY")}
