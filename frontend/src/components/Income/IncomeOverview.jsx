@@ -13,12 +13,13 @@ function IncomeOverview({ transactions, onAddIncome }) {
 
   return (
     <div className="card">
-      <div className="flex items-center justify-between ">
-        <h5 className="text-lg">Income Overview</h5>
-        <p className="text-sm text-gray-400 mt-0.5">
-          Track your earnings over time and analyze your income trends.
-        </p>
-
+      <div className="flex items-center justify-between  gap-2">
+        <div className="flex flex-col  items-start gap-2">
+          <h5 className="text-lg">Income Overview</h5>
+          <p className="text-sm text-gray-400 mt-0.5">
+            Track your earnings over time and analyze your income trends.
+          </p>
+        </div>
         <button className="add-btn" onClick={onAddIncome}>
           <LuPlus className="text-lg" /> Add Income
         </button>

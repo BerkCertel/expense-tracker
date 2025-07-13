@@ -11,22 +11,37 @@ import Home from "./pages/Dashboard/Home";
 import Income from "./pages/Dashboard/Income";
 import Expense from "./pages/Dashboard/Expense";
 import UserProvider from "./context/userContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <UserProvider>
-      <>
+      <div>
         <Router>
           <Routes>
             <Route path="/" element={<Root />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" exact element={<SignUp />} />
+
             <Route path="/dashboard" exact element={<Home />} />
             <Route path="/income" exact element={<Income />} />
             <Route path="/expense" exact element={<Expense />} />
           </Routes>
         </Router>
-      </>
+      </div>
+
+      <Toaster
+        toastOptions={{
+          duration: 3000,
+          className: "",
+          style: {
+            fontSize: "13px",
+          },
+        }}
+        position="top-center"
+        reverseOrder={false}
+        duration={3000}
+      />
     </UserProvider>
   );
 }
