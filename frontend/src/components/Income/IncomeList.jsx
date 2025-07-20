@@ -17,7 +17,7 @@ function IncomeList({ transactions, onDelete, onDownload }) {
       <div className="grid grid-cols-1 md:grid-cols-2">
         {transactions?.map((income) => (
           <TransactionInfoCard
-            key={income.id}
+            key={income._id}
             title={income.source}
             icon={income.icon}
             date={moment(income.date).format("Do MMM YYYY")}

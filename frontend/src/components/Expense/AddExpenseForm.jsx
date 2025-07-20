@@ -44,6 +44,16 @@ function AddExpenseForm({ onAddExpense }) {
         placeholder="YYYY-MM-DD"
         type="date"
       />
+
+      <div className="flex justify-end mt-">
+        <button
+          type="button"
+          className="add-btn add-btn-fill"
+          onClick={() => onAddExpense(expense)}
+        >
+          Add Expense
+        </button>
+      </div>
     </div>
   );
 }

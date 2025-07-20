@@ -17,7 +17,7 @@ function CustomLineChart({ data }) {
             {payload[0].payload.category}
           </p>
           <p className="text-sm text-gray-600">
-            Amount:{" "}
+            Amount:
             <span className="text-sm font-medium text-gray-900">
               ${payload[0].payload.amount}
             </span>
