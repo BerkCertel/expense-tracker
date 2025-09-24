@@ -14,10 +14,6 @@ exports.getDashboardData = async (req, res) => {
       { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
 
-    // console.log("Total Income:", {
-    //   totalIncome,
-    //   userId: isValidObjectId(userId),
-    // });
 
     const totalExpense = await Expense.aggregate([
       { $match: { userId: userObjectId } },
@@ -53,7 +49,7 @@ exports.getDashboardData = async (req, res) => {
     );
 
     // fetch last 5 transactions for income + expense
-    // Income işlemlerini çek
+
     const last5Income = await Income.find({ userId })
       .sort({ date: -1 })
       .limit(5);
@@ -62,7 +58,7 @@ exports.getDashboardData = async (req, res) => {
       .sort({ date: -1 })
       .limit(5);
 
-    // Her birine tip ekle
+
     const last5IncomeWithType = last5Income.map((txn) => ({
       ...txn.toObject(),
       type: "income",
@@ -72,7 +68,7 @@ exports.getDashboardData = async (req, res) => {
       type: "expense",
     }));
 
-    // Birleştir ve tarihe göre sırala
+
     const lastTransactions = [
       ...last5IncomeWithType,
       ...last5ExpenseWithType,
