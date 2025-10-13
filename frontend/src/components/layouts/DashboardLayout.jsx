@@ -3,7 +3,7 @@ import { UserContext } from "../../context/userContext";
 import Navbar from "../Navbar";
 import SideMenu from "../SideMenu";
 
-function DashboardLayout({ children, activeMenu }) {
+export default function DashboardLayout({ children, activeMenu }) {
   const { user } = useContext(UserContext);
 
   return (
@@ -15,11 +15,9 @@ function DashboardLayout({ children, activeMenu }) {
             <SideMenu activeMenu={activeMenu} />
           </div>
 
-          <div className="flex-grow mx-5">{children}</div>
+          <div className=" flex-grow  mx-5">{children}</div>
         </div>
       )}
     </div>
   );
 }
-
-export default DashboardLayout;

@@ -142,7 +142,7 @@ function Income() {
 
   return (
     <DashboardLayout activeMenu="Income">
-      <div className="my-5 mx-auto">
+      <div className="my-5 mx-auto ">
         <div className="grid grid-cols-1 gap-6">
           <div className="flex flex-col gap-4">
             <IncomeOverview

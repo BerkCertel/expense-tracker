@@ -6,7 +6,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import CustomTooltip from "./CustomTooltip.JSX";
+import CustomTooltip from "./CustomTooltip.jsx";
 import CustomLegend from "./CustomLegend";
 
 function CustomPieChart({ data, label, totalAmount, colors, showTextAnchor }) {
